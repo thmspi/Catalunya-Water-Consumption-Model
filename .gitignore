@@ -1,0 +1,7 @@
+data/base_data
+data/final_results
+data/models
+data/temp_results
+notebooks/
+scripts/analytics/__pycache__
+scripts/main/__pycache__
