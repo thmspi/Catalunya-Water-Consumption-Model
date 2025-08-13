@@ -1,3 +1,4 @@
 *.csv
 *.xlsx
+!synthetic_data.csv
 era_downloads/*.nc
