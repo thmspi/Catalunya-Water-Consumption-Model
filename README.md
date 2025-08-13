@@ -599,3 +599,13 @@ C4 2000-3000 animals: 18170.01714027458
 C5 >3000 animals: 18494.74791306
 Total: 16716.118073929098 L per day
 ```
+
+## Test branch
+
+For testing purposes and to push the result analysis further, I created synthetic data that does not correlate strongly with other variables (as expected, since it’s synthetic) but simulates water consumption during the fattening cycle until May 2025. With this data, we observed that the results were much more logical, even though the correlations were weaker. This suggests that we probably have a lack of data and that the results should improve as we gather more.
+
+You can check this work by looking at the `dev` branch, either directly on GitHub or by running:
+
+```bash
+git checkout dev
+```
