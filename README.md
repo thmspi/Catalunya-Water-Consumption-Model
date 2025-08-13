@@ -2,6 +2,8 @@
 
 >Please open the README with a Markdown viewer
 
+> **Warning:** Ensure that you downloaded the project with the correct folder structure. You should have a `data` folder containing the following empty folders (if you downloaded it via Github) : `base_data`,`temp_results` ,`final_results`. If you don't have those folders, please create them.
+
 ## Required Base Data for the Project
 
 - census_all.csv
@@ -256,7 +258,7 @@ We will now use the script `2-Create_temp_dataset.py`, located at:
 
 `Water_Consumption_Model/scripts/setup/2-Create_temp_dataset.py`
 
-This script reads the `farms_with_coordinates.xlsx` file to extract each farm’s coordinates and the associated farm ID (MO), then queries the temperature dataset accordingly. The time range is not specified in this script. For each farm it will retrieve all available datapoints (retrieved in the defined time range in previous step).
+This script reads the `farms_with_coordinates.xlsx` file to extract each farm’s coordinates and the associated farm ID (MO), then queries the temperature dataset accordingly. The time range is not specified in this script. For each farm it will retrieve all available datapoints (retrieved in the defined time range in the previous step).
 
 ```python
 merged_nc = os.path.join(data_dir, 'era5land_cat_2021-2025-05_daily.nc')
@@ -337,15 +339,16 @@ Now that this is done, we are ready to train the model with our new dataset.
 
 ## Training and Exporting the KNN Model
 
+> **Warning:** For confidential reasons, the model might not be present if you downloaded the project via Github. In this case, please follow the step to recreate / retrain the model in order for the code to work.
+
 Because the model is trained on “fixed” data, its precision should not change even after you query more ERA5 data. The pre-trained model should be present at:
 
 `Water_Consumption_Model/data/models/knn_water_model.joblib`
 
-You can still perform the following step in these situations:
-
 - You don’t have access to the pre-trained model  
 - You have new data concerning the farm used to train the model (0230GI)  
 - You want to retrain the model
+- You downloaded the project via Github
 
 ### Filtering the Census File
 
@@ -423,6 +426,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.05, rand
 If you want to take a closer look at how the model behaves and how it should behave, you can check the saved Jupyter Notebook that relates to the pre‑trained model (complete expected output) located at:
 
 `Water_Consumption_Model/notebooks/KNN-model.ipynb`
+
+> **Warning:** For confidential reasons, notebooks might not be present in the project if you downloaded it via Github
 
 Please note that if everything executed as intended, you should now see the model appear at:
 
