@@ -124,9 +124,8 @@ plt.show()
 
 # data["avg_weight"] = data["avg_weight"].str.replace(",", ".", regex=False).astype(float)
 data['Date'] = pd.to_datetime(data['Date']).dt.month  # Only month number remains
-data.to_csv("/Users/thomas/VS Code/Water Consumption Model/data/temp_results/test.csv")
 print(data.dtypes)
-data = data.drop(columns=["fecha_inicio_ciclo", "avg_weight"])
+data = data.drop(columns=["avg_weight"])
 correlation_matrix = data.corr()
 plt.figure(figsize=(12, 8))  # Adjust the figure size as needed
 sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", cbar=True)

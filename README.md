@@ -1,4 +1,4 @@
-# Water Consumption Model
+# CATALUNYA WATER CONSUMPTION MODEL
 
 >Please open the README with a Markdown viewer
 
@@ -10,7 +10,7 @@
 - farms with coordinates.xlsx
 - Water Database.xlsx
 
-> **Warning:** Files must be named exactly as shown; otherwise, execution errors may occur. They should also be placed inside the `Water Consumption Model/data/base_data` folder
+> **Warning:** Files must be named exactly as shown; otherwise, execution errors may occur. They should also be placed inside the `CATALUNYA-CATALUNYA-WATER-CONSUMPTION MODEL/data/base_data` folder
 
 
 Ensure each file follows this format and contains the following columns:
@@ -158,7 +158,7 @@ After that you should be ready to go.
 
 Now we can run the Python script to retrieve the complete dataset. Please open the first configuration file located at:
 
-`Water_Consumption_Model/scripts/setup/1-ERA5_imports.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/setup/1-ERA5_imports.py`
 
 This file sends API requests to the Climate Data Store to retrieve the required information. Because the site prevents requests that are too large, the code sends one request per year in the range you defined for the Catalonia region.
 
@@ -213,38 +213,37 @@ After setting all those parameters, you can execute the script. If everything go
 
 
 ```
-thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/Water Cons
-umption Model/scripts/setup/1-ERA5_imports.py"
+thomas@MacBook-Pro-de-Thomas-3 CATALUNYA-WATER-CONSUMPTION-MODEL % /opt/anaconda3/bin/python "/Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/setup/1-ERA5_imports.py"
 2025-07-28 14:44:33,449 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
-Requesting 2021, saving to /Users/thomas/VS Code/Water Consumption Model/data/base_data/era_downloads/era5land_cat_2021.nc...
+Requesting 2021, saving to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/base_data/era_downloads/era5land_cat_2021.nc...
 2025-07-28 14:44:34,904 INFO Request ID is 455c9746-4802-4782-b5e8-9b184c4a1726
 2025-07-28 14:44:34,982 INFO status has been updated to accepted
 2025-07-28 14:45:25,220 INFO status has been updated to successful
-Requesting 2022, saving to /Users/thomas/VS Code/Water Consumption Model/data/base_data/era_downloads/era5land_cat_2022.nc...
+Requesting 2022, saving to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/base_data/era_downloads/era5land_cat_2022.nc...
 2025-07-28 14:45:30,185 INFO Request ID is 8b51bd11-3415-4540-81b9-777aec41b842
 2025-07-28 14:45:30,288 INFO status has been updated to accepted
 2025-07-28 14:46:20,433 INFO status has been updated to successful
-Requesting 2023, saving to /Users/thomas/VS Code/Water Consumption Model/data/base_data/era_downloads/era5land_cat_2023.nc...
+Requesting 2023, saving to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/base_data/era_downloads/era5land_cat_2023.nc...
 2025-07-28 14:46:21,395 INFO Request ID is 3e7b44b7-5487-4b0c-9f69-19f5754e00d0
 2025-07-28 14:46:21,562 INFO status has been updated to accepted
 2025-07-28 14:47:11,693 INFO status has been updated to successful
-Requesting 2024, saving to /Users/thomas/VS Code/Water Consumption Model/data/base_data/era_downloads/era5land_cat_2024.nc...
+Requesting 2024, saving to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/base_data/era_downloads/era5land_cat_2024.nc...
 2025-07-28 14:47:15,745 INFO Request ID is 22b97afd-06e3-4aaf-9307-147b6dd94e11
 2025-07-28 14:47:15,812 INFO status has been updated to accepted
 2025-07-28 14:48:31,590 INFO status has been updated to successful
-Requesting 2025, saving to /Users/thomas/VS Code/Water Consumption Model/data/base_data/era_downloads/era5land_cat_2025.nc...
+Requesting 2025, saving to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/base_data/era_downloads/era5land_cat_2025.nc...
 2025-07-28 14:48:35,590 INFO Request ID is 1c0cb02e-9dc9-44c6-8748-7990c27b9dfc
 2025-07-28 14:48:35,672 INFO status has been updated to accepted
 2025-07-28 14:48:57,070 INFO status has been updated to successful
 Merging yearly files into a single dataset...                                                                       
 Dataset dimensions: Frozen({'valid_time': 1612, 'latitude': 41, 'longitude': 61})
 Using 'valid_time' as time dimension for resampling
-Merged dataset saved to /Users/thomas/VS Code/Water Consumption Model/data/base_data/era_downloads/era5land_cat_2021-2025_01-05_daily.nc
+Merged dataset saved to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/base_data/era_downloads/era5land_cat_2021-2025_01-05_daily.nc
 ```
 
 Double check that everything has gone well by verifying that all files are present. Navigate to:
 
-`Water_Consumption_Model/data/base_data/era_downloads`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/data/base_data/era_downloads`
 
 You should see the downloaded files for each year and the merged file that was exported.
 
@@ -256,7 +255,7 @@ You should see the downloaded files for each year and the merged file that was e
 
 We will now use the script `2-Create_temp_dataset.py`, located at:
 
-`Water_Consumption_Model/scripts/setup/2-Create_temp_dataset.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/setup/2-Create_temp_dataset.py`
 
 This script reads the `farms_with_coordinates.xlsx` file to extract each farm’s coordinates and the associated farm ID (MO), then queries the temperature dataset accordingly. The time range is not specified in this script. For each farm it will retrieve all available datapoints (retrieved in the defined time range in the previous step).
 
@@ -266,7 +265,7 @@ merged_nc = os.path.join(data_dir, 'era5land_cat_2021-2025-05_daily.nc')
 
 After execution, for each farm ID, the script queries the daily temperature over the specified interval and outputs a temporary result at:
 
-`Water_Consumption_Model/data/temp_results/farms_daily_t2m_2021-2025.csv`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/data/temp_results/farms_daily_t2m_2021-2025.csv`
 
 If everything goes well, you should see quick terminal output indicating which farm is being processed, the associated coordinates, the nearest grid point in the temperature dataset, and any missing temperature data:
 
@@ -288,20 +287,19 @@ Processing farm 9450BT: target lon=0.7003, lat=40.8289…
 Processing farm 9450CV: target lon=0.6950, lat=40.8246…
   Nearest grid point -> lon=0.7000, lat=40.8000
   Days total=1612, missing=0
-Writing CSV with 9312524 records to /Users/thomas/VS Code/Water Consumption Model/data/temp_results/farms_daily_t2m_2021-2025.csv
+Writing CSV with 9312524 records to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/temp_results/farms_daily_t2m_2021-2025.csv
 All done.
 ```
 
 You can verify that everything has completed successfully by running the debug script located at:
 
-`Water_Consumption_Model/scripts/debug/DEBUG_check_NaN_temp_result_db_copy.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/debug/DEBUG_check_NaN_temp_result_db_copy.py`
 
 If everything ran as intended, it should output the following:
 
 
 ```
-thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/Water Cons
-umption Model/scripts/debug/DEBUG_check_NaN_temp_result_db copy.py"
+thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/CATALUNYA WATER CONSUMPTION MODEL/scripts/debug/DEBUG_check_NaN_temp_result_db copy.py"
 No NaN values found in 't2m_C'
 ```
 
@@ -309,11 +307,11 @@ No NaN values found in 't2m_C'
 
 We will now look at the final setup script located at:
 
-`Water_Consumption_Model/scripts/setup/3-Merging_Census_to_temperature.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/setup/3-Merging_Census_to_temperature.py`
 
 This script merges the results we extracted with the base census file. It then exports a temporary result at:
 
-`Water_Consumption_Model/data/temp_results/census_all_t2m.csv`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/data/temp_results/census_all_t2m.csv`
 
 If everything has gone well, you should see output like:
 
@@ -331,7 +329,7 @@ Farm 9420AB: missing t2m_C values = 0
   Farm 9420AT: missing t2m_C values = 0
   Farm 9420BA: missing t2m_C values = 0
   Farm 9420BC: missing t2m_C values = 0
-Writing merged dataset to /Users/thomas/VS Code/Water Consumption Model/data/temp_results/census_all_t2m.csv
+Writing merged dataset to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/temp_results/census_all_t2m.csv
 Done.
 ```
 
@@ -343,7 +341,7 @@ Now that this is done, we are ready to train the model with our new dataset.
 
 Because the model is trained on “fixed” data, its precision should not change even after you query more ERA5 data. The pre-trained model should be present at:
 
-`Water_Consumption_Model/data/models/knn_water_model.joblib`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/data/models/knn_water_model.joblib`
 
 - You don’t have access to the pre-trained model  
 - You have new data concerning the farm used to train the model (0230GI)  
@@ -354,7 +352,7 @@ Because the model is trained on “fixed” data, its precision should not chang
 
 In the previous step, we created a census file that contains data for all farms from 2021 to May 2025. We don’t need data for every farm to train our model, nor do we need data outside Maria’s Water Database time period. To do this, run the script located at:
 
-`Water_Consumption_Model/scripts/setup/MODEL-Isolate_Maria_data.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/setup/MODEL-Isolate_Maria_data.py`
 
 This script creates a subset of the census file that we will use to train our model.
 
@@ -372,9 +370,9 @@ subset = data[
 After execution, if everything has gone well, you should see the following output:
 
 ```
-thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/Water Consumption Model/scripts/setu
+thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/setu
 p/MODEL-Isolate_Maria_data.py"
-Written 1497 rows for farm 0230GI to /Users/thomas/VS Code/Water Consumption Model/data/temp_results/filtered_census_t2m.csv
+Written 1497 rows for farm 0230GI to /Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/data/temp_results/filtered_census_t2m.csv
 ```
 
 ### Training the KNN Model
@@ -383,7 +381,7 @@ If needed, you can now retrain the model. To visualize it, it’s best to use Ju
 
 Open the KNN model script located at:
 
-`Water_Consumption_Model/scripts/model/KNN-model.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/model/KNN-model.py`
 
 #### Installing Jupyter
 
@@ -425,13 +423,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.05, rand
 
 If you want to take a closer look at how the model behaves and how it should behave, you can check the saved Jupyter Notebook that relates to the pre‑trained model (complete expected output) located at:
 
-`Water_Consumption_Model/notebooks/KNN-model.ipynb`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/notebooks/KNN-model.ipynb`
 
 > **Warning:** For confidential reasons, notebooks might not be present in the project if you downloaded it via Github
 
 Please note that if everything executed as intended, you should now see the model appear at:
 
-`Water_Consumption_Model/data/models/knn_water_model.joblib`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/data/models/knn_water_model.joblib`
 
 If that’s the case, your model has been exported and is ready to be used by the main script to predict water consumption for the census dataset.
 
@@ -451,7 +449,7 @@ Now that we have our pre‑trained model (or have retrained it), we can use it t
 
 To do so, open the main script located at:
 
-`Water_Consumption_Model/scripts/main/main.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/main/main.py`
 
 When you run it, the script loads the census file (which includes temperature) and predicts water consumption for each farm, for each day in the dataset.
 
@@ -460,7 +458,7 @@ To ensure reliability and avoid crashes, the code checks that no temperature dat
 If everything has executed as intended, you should see output like this:
 
 ```
-thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/Water Consumption Model/scripts/main
+thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/main
 /main.py"
 row                           int64
 MO                           object
@@ -511,13 +509,13 @@ It took 25 minutes to process the data for all farms from 01/01/2021 to 31/05/20
 
 You shouldn't have any missing data if you didn't see any message saying so but we can double check using the debug script located at:
 
-`Water_Consumption_Model/scripts/debug/DEBUG_check_NaN_final_result_db.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/debug/DEBUG_check_NaN_final_result_db.py`
 
 
 If you have no missing data you should have this output : 
 
 ```
-thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/Water Consumption Model/scripts/debu
+thomas@MacBook-Pro-de-Thomas-3 Water Consumption Model % /opt/anaconda3/bin/python "/Users/thomas/VS Code/CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/debu
 g/DEBUG_check_NaN_final_result_db.py"
 No NaN values found in 't2m_C' or 'Total water consumption'.
 ```
@@ -526,7 +524,7 @@ No NaN values found in 't2m_C' or 'Total water consumption'.
 
 Now that we've predicted total water consumption for all available farms, we can analyze the results. To do this, run the analytics script located at:
 
-`Water_Consumption_Model/scripts/analytics/analytics.py`
+`CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/analytics/analytics.py`
 
 To better visualize the results, run it in a Jupyter interactive window, which allows multiple plots to appear on screen simultaneously. At each loop iteration, you’re presented with five options, the fifth of which properly exits the loop.
 
@@ -599,3 +597,57 @@ C4 2000-3000 animals: 18170.01714027458
 C5 >3000 animals: 18494.74791306
 Total: 16716.118073929098 L per day
 ```
+
+## Test branch
+
+Here are the instruction to reproduce the tests that use the synthethic data. In order to do so you will need to use the synthetic data available at `data/base_data/synthetic_data.csv'. 
+
+> **Warning:** It might not be available depending on the sensitive level that this synthetic data had been given. If this is the case you can't reproduce the test or need to recreate synthethic data by yourself.
+
+Because only synthethic data as been made available you will need to recreate the full training dataset to train the model.
+
+### Recreating synthetic dataset
+
+In order to do so please execute the following setup file located at `CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/setup/MODEL-export-0230GI-data`. This file will run the beginning of the model training just to output the corresponding data of the reference farm (0230GI) to use the maximum amount of real data that we have.
+
+If everything goes well you should see the following output :
+
+```bash
+Building_name           0.000000
+lotcode                 0.000000
+Date                    0.000000
+Hour                    0.000000
+Feed_intake_kg         49.374451
+num_animals            29.938543
+...
+max     11.000000            2023-01-09 00:00:00  341070.000000  ...  158614.500000            32.790556             inf
+std      1.380708                            NaN   16397.023220  ...   29825.664699             8.116988             NaN
+
+[8 rows x 7 columns]
+```
+
+Now that you have exported our real data, we can append the synthetic data to the data we've just exported. To do that please use the following file : `CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/setup/MODEL-create-synthetic-dataset.py`. It will output a file named `merged_cleaned.csv` in the `base_data`folder that the `TEST` files will use as training dataset.
+ 
+Run the file, if everything goes well you should see something like that : 
+
+```bash
+Saved 1324 rows with common columns to: /Users/thomas/VS Code/Catalunya-Water-Consumption-Model/data/base_data/merged_cleaned.csv
+```
+
+Double check that the `merged_cleaned.csv` as been outputed. 
+
+### Retraining model
+
+You can now retrain the model but this time using the `CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/model/TEST-KNN-model.py` file.
+
+### Predicting new results
+
+To predict new results you can use the TEST-main file : `CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/main/TEST-main.py`. This file is set to only run for a couple farm instead of the 3000 availables : 
+
+```python
+farm_ids = ["0230GI", "0030CY", "0040EB", "0040KK"]
+```
+
+### Perform analysis
+
+To perform analysis on those file you can run the TEST analysis file located at : `CATALUNYA-WATER-CONSUMPTION-MODEL/scripts/analytics/TEST-analytics.py`

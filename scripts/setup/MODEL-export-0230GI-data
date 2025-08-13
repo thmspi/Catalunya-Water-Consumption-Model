@@ -1,0 +1,95 @@
+# In[1]: Importing necessary libraries
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+import os
+
+
+warnings.filterwarnings("ignore")
+
+
+# In[2]: Reading the dataset
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+data_path = os.path.join(script_dir, '..', '..', 'data','base_data', 'Water Database.xlsx')
+data_path = os.path.abspath(data_path)
+
+out_path = os.path.join(script_dir, '..', '..', 'data','temp_results', 'synthetic_data.csv')
+out_path = os.path.abspath(out_path)
+
+data = pd.read_excel(data_path)
+
+
+
+#In[3]: PreProcessing data
+print(100*data.isnull().sum()/len(data))
+
+data = data.drop(columns=['Feed_intake_kg', 'num_animals', 'NH3', 'Humidity']) #50% missing values and use kiko nb animal variable
+# Replace missing by average (water_L is 20% missing)
+# Impute water_L by month median
+data['Date'] = pd.to_datetime(data['Date'])
+data['water_L'] = data.groupby(data['Date'].dt.month)['water_L'].transform(lambda x: x.fillna(x.median()))
+
+
+data['CO2'].fillna(data['CO2'].mean(), inplace=True)
+data['Outside_temperature'].fillna(data['Outside_temperature'].mean(), inplace=True)
+
+# Drop row with missing values
+data.dropna(inplace=True)
+
+print(100*data.isnull().sum()/len(data))
+
+# In[4]: Merging data at farm level
+
+def aggregate_building_data(df):
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    aggregation_rules = {
+        'water_L': 'sum',
+        'Inside_temperature':"mean",
+        'CO2': 'sum',
+        'Outside_temperature': 'mean',
+        'Indiv_Water_mL': 'sum'
+    }
+
+    # Group by lotcode and date
+    aggregated_df = df.groupby(['lotcode', 'Date'], as_index=False).agg(aggregation_rules)
+
+    return aggregated_df
+
+data = aggregate_building_data(data)
+data.head()
+
+# In[4]: Correlation matrix
+
+correlation_matrix = data.corr()
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", cbar=True)
+plt.title("Basic")
+plt.show()
+print(data.describe())
+
+# In[5]: Merge kiko dataset
+
+def merge_on_date(env_data):
+
+    census_data_path = os.path.join(script_dir, '..', '..', 'data','temp_results', 'filtered_census_t2m.csv')
+    census_data_path = os.path.abspath(census_data_path)
+    
+    weight_data = pd.read_csv(census_data_path)
+    weight_data.head()
+
+    # S'assurer que les colonnes Date soient bien en datetime
+    env_data["Date"] = pd.to_datetime(env_data["Date"], errors="coerce")
+    weight_data["Date"] = pd.to_datetime(weight_data["Date"], errors="coerce")
+
+    merged_data = pd.merge(env_data, weight_data, on="Date", how="inner")
+
+    return merged_data
+
+data = merge_on_date(data)
+data.head()
+data.to_csv("/Users/thomas/VS Code/Catalunya-Water-Consumption-Model-1/data/temp_results/0230GI.csv")
